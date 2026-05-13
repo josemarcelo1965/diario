@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cliente</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main>
+  <h2 id="titulo-cliente">Cliente</h2>
+
+  <label>Nome do Cliente</label>
+  <input type="text" id="nome">
+  <br>
+  <label>Data e Hora--</label>
+  <input type="datetime-local" id="data">
+  <br>
+  <label>Status----------</label>
+  <select id="status">
+    <option>Projeto</option>
+    <option>Verificar</option>
+    <option>Verificando</option>
+    <option>Verificado</option>
+    <option>Concluído</option>
+  </select>
+  <br>
+  <!--almenta tamanho campo texto-->
+  <label>ANOTAÇÃO--</label>
+  <textarea id="relatorio" rows="5" cols="550"></textarea>
+  <br>
+  <label>Ação Tomada</label>
+  <textarea id="acao" rows="10" cols="150"></textarea> <!-- almenta o tamanho da area de texto-->
+  <br>
+  <label>Projetos -------</label>
+  <textarea id="acao" rows="10" cols="50"></textarea> <!-- almenta o tamanho da area de texto-->
+  <br>
+  <br>
+  <button onclick="salvar()">Salvar</button>
+  <button onclick="voltar()">Voltar</button>
+</main>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id");
+
+  const chave = `cliente${id}`;
+
+  document.getElementById("titulo-cliente").innerText = "Cliente " + id;
+
+  function salvar() {
+    const dados = {
+      nome: document.getElementById("nome").value,
+      data: document.getElementById("data").value,
+      status: document.getElementById("status").value,
+      relatorio: document.getElementById("relatorio").value,
+      acao: document.getElementById("acao").value
+    };
+
+    localStorage.setItem(chave + "_dados", JSON.stringify(dados));
+    alert("Salvo com sucesso!");
+  }
+
+  function voltar() {
+    window.location.href = "index.html";
+  }
+
+  // carregar dados
+  window.onload = () => {
+    document.getElementById("nome").value = localStorage.getItem(chave) || "";
+
+    const dados = JSON.parse(localStorage.getItem(chave + "_dados"));
+    if (dados) {
+      document.getElementById("data").value = dados.data || "";
+      document.getElementById("status").value = dados.status || "";
+      document.getElementById("relatorio").value = dados.relatorio || "";
+      document.getElementById("acao").value = dados.acao || "";
+    }
+  };
+</script>
+
+</body>
+</html>
